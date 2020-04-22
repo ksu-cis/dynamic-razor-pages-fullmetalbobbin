@@ -4,11 +4,24 @@
     ViewData["Title"] = "Home page";
 }
 
-<h1>Movies</h1>
+    <form>
+        @foreach (String rating in MovieDatabase.MPAARatings)
+        {
+        <label>
+            <input type="checkbox" name="MPAARating" value="@rating" checked="@Model.MPAARatings.Contains(rating)" />
+            @rating
+        </label>
+        }
+
+        <input type="text" name="SearchTerms" value="@Model.SearchTerms" />
+        <input type="submit" value="Search">
+    </form>
+
+<h1>Movie Results</h1>
 
 <ul class="movie-list">
-    @foreach (Movie movie in MovieDatabase.All)
-    { 
+    @foreach (Movie movie in @Model.Movies)
+    {
         <li>
             <div class="details">
                 <h3 class="title">@movie.Title</h3>
@@ -16,16 +29,19 @@
                 <div class="genre">@movie.MajorGenre</div>
             </div>
             <div class="ratings">
-                @if(movie.IMDBRating != null)
+                @if (movie.IMDBRating != null)
                 {
-                    <div class="imdb">@movie.IMDBRating</div>
+                    <div class="imdb">
+                        @movie.IMDBRating
+                    </div>
                 }
-                @if(movie.RottenTomatoesRating != null)
+                @if (movie.RottenTomatoesRating != null)
                 {
-                    <div class="rotten-tomatoes">@movie.RottenTomatoesRating</div>
+                    <div class="rotten-tomatoes">
+                        @movie.RottenTomatoesRating
+                    </div>
                 }
             </div>
         </li>
     }
-
 </ul>
