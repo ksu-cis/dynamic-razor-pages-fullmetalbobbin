@@ -17,44 +17,44 @@ namespace Movies.Pages
         /// <summary>
         /// The current search terms 
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public string SearchTerms { get; set; } = "";
 
         /// <summary>
         /// The filtered MPAA Ratings
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public string[] MPAARatings { get; set; }
 
         /// <summary>
         /// The filtered genres
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public string[] Genres { get; set; }
 
         /// <summary>
         /// The minimum IMDB Rating
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public double? IMDBMin { get; set; }
 
         /// <summary>
         /// The maximum IMDB Rating
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public double? IMDBMax { get; set; }
 
 
         /// <summary>
         /// The minimum Rotten Rating
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public double? RottenMin { get; set; }
 
         /// <summary>
         /// The maximum Rotten Rating
         /// </summary>
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public double? RottenMax { get; set; }
 
         /// <summary>
@@ -62,6 +62,7 @@ namespace Movies.Pages
         /// </summary>
         public void OnGet(double? IMDBMin, double? IMDBMax, double? RottenMin, double? RottenMax)
         {
+            /* 
             this.IMDBMin = IMDBMin;
             this.IMDBMax = IMDBMax;
             this.RottenMin = RottenMin;
@@ -74,6 +75,43 @@ namespace Movies.Pages
             Movies = MovieDatabase.FilterByGenre(Movies, Genres);
             Movies = MovieDatabase.FilterByIMDBRating(Movies, IMDBMin, IMDBMax);
             Movies = MovieDatabase.FilterByRottenRating(Movies, RottenMin, RottenMax);
+            */
+
+            Movies = MovieDatabase.All;
+            // Search movie titles for the SearchTerms
+            if (SearchTerms != null)
+            {
+                Movies = Movies.Where(movie => 
+                    movie.Title != null && 
+                    movie.Title.Contains(SearchTerms, StringComparison.InvariantCultureIgnoreCase)
+                    );
+
+                /*
+                Movies = from movie in Movies
+                         where movie.Title != null && movie.Title.Contains(SearchTerms, StringComparison.InvariantCultureIgnoreCase)
+                         select movie;
+                 */
+            }
+
+            // Filter by MPAA Rating 
+            if (MPAARatings != null && MPAARatings.Length != 0)
+            {
+                Movies = Movies.Where(movie =>
+                    movie.MPAARating != null &&
+                    MPAARatings.Contains(movie.MPAARating)
+                    );
+            }
+
+            // Filter by Genres 
+            if (Genres != null && Genres.Length != 0)
+            {
+                Movies = Movies.Where(movie =>
+                    movie.MajorGenre != null &&
+                    Genres.Contains(movie.MajorGenre)
+                    );
+            }
+
+
         }
 
     }
