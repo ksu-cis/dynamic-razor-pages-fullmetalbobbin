@@ -86,11 +86,9 @@ namespace Movies.Pages
                     movie.Title.Contains(SearchTerms, StringComparison.InvariantCultureIgnoreCase)
                     );
 
-                /*
-                Movies = from movie in Movies
+                /*Movies = from movie in Movies
                          where movie.Title != null && movie.Title.Contains(SearchTerms, StringComparison.InvariantCultureIgnoreCase)
-                         select movie;
-                 */
+                         select movie; */
             }
 
             // Filter by MPAA Rating 
