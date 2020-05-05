@@ -111,6 +111,31 @@ namespace Movies.Pages
                     );
             }
 
+            //Filter by IMDB
+            if (IMDBMin != null || IMDBMax != null)
+            {
+                Movies = Movies.Where(movie => movie.IMDBRating != null &&
+                (
+                (IMDBMin != null && IMDBMax == null && movie.IMDBRating >= IMDBMin) ||
+                (IMDBMin == null && IMDBMax != null && movie.IMDBRating <= IMDBMax) ||
+                (IMDBMin != null && IMDBMax != null && movie.IMDBRating >= IMDBMin && movie.IMDBRating <= IMDBMax)
+                )
+                );
+            }
+
+
+            //Filter by Rotten
+            if (RottenMin != null || RottenMax != null)
+            {
+                Movies = Movies.Where(movie => movie.RottenTomatoesRating != null &&
+                (
+                (RottenMin != null && RottenMax == null && movie.RottenTomatoesRating >= RottenMin) ||
+                (RottenMin == null && RottenMax != null && movie.RottenTomatoesRating <= RottenMax) ||
+                (RottenMin != null && RottenMax != null && movie.RottenTomatoesRating >= RottenMin && movie.RottenTomatoesRating <= RottenMax)
+                )
+                );
+            }
+
 
         }
 
